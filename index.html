@@ -36,31 +36,44 @@ body{
     linear-gradient(135deg,#050614,#101434 55%,#070818);
 }
 
+/* 왼쪽 별 장식 */
 body:before{
   content:"✦  ·  ✧     ·       ✦       ·  ✧      ·       ✦       ·    ✧";
   position:fixed;
-  inset:0;
+  left:0;
+  top:0;
+  width:50%;
+  height:100%;
   pointer-events:none;
   opacity:.45;
   font-size:32px;
   letter-spacing:24px;
   line-height:140px;
   overflow:hidden;
+  z-index:0;
 }
+
+/* 오른쪽 별 장식 */
 body:after{
   content:"✧  ·  ✦     ·       ✧       ·  ✦       ·  ✧      ·       ✦";
   position:fixed;
-  inset:0;
+  right:0;
+  top:0;
+  width:50%;
+  height:100%;
   pointer-events:none;
   opacity:.45;
   font-size:32px;
   letter-spacing:24px;
   line-height:140px;
   overflow:hidden;
-  transform:translateX(50%);
+  text-align:right;
+  z-index:0;
 }
+
 .app{
   position:relative;
+  z-index:1;
   max-width:1150px;
   margin:auto;
   padding:25px 16px 45px;
@@ -290,6 +303,13 @@ input.num{
 
   .recipe-btn{
     font-size:18px;
+  }
+
+  body:before,
+  body:after{
+    font-size:24px;
+    letter-spacing:14px;
+    line-height:110px;
   }
 
 }
@@ -826,17 +846,10 @@ function createGroupedIngredientRows(ingredients){
     }
 
 
-    /*
-      같은 카테고리 안에서는
-      이름순으로 정렬
-    */
-
     groups[category].sort(([a],[b])=>
       a.localeCompare(b,"ko")
     );
 
-
-    /* 카테고리 제목 */
 
     html += `
 
@@ -852,8 +865,6 @@ function createGroupedIngredientRows(ingredients){
 
     `;
 
-
-    /* 재료 */
 
     groups[category].forEach(([name,need])=>{
 
