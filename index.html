@@ -681,6 +681,83 @@ function formatStack(n){
 
 
 /* =========================
+   재료 정렬
+   피쉬 → 작물 → 가공재료
+========================= */
+
+function getIngredientCategory(name){
+
+  /* =========================
+     🐟 피쉬
+  ========================= */
+
+  if(name.includes("피쉬")){
+    return 1;
+  }
+
+
+  /* =========================
+     🌱 작물
+  ========================= */
+
+  const crops = [
+
+    "마나블라썸",
+    "피치가지",
+    "젤리버섯",
+    "팬텀 양배추",
+    "레드펄 양파",
+    "슬라임 콜라비",
+    "엔더 콩",
+    "초승달 무",
+    "호박 퓌레"
+
+  ];
+
+
+  if(crops.includes(name)){
+    return 2;
+  }
+
+
+  /* =========================
+     🧂 가공재료
+  ========================= */
+
+  return 3;
+
+}
+
+
+function sortIngredients(entries){
+
+  return entries.sort(([nameA],[nameB])=>{
+
+    const categoryA =
+      getIngredientCategory(nameA);
+
+    const categoryB =
+      getIngredientCategory(nameB);
+
+
+    if(categoryA !== categoryB){
+
+      return categoryA - categoryB;
+
+    }
+
+
+    return nameA.localeCompare(
+      nameB,
+      "ko"
+    );
+
+  });
+
+}
+
+
+/* =========================
    요리 목록 표시
 ========================= */
 
@@ -908,8 +985,9 @@ function renderRecipe(){
         <tbody>
 
           ${
-            Object.entries(ingredients)
-
+            sortIngredients(
+              Object.entries(ingredients)
+            )
             .map(([name,need])=>`
 
               <tr>
