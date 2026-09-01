@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -115,7 +116,6 @@ body:before{
   cursor:pointer;
   text-align:left;
 
-  /* 요리 이름 글자 크기 */
   font-size:19px;
   font-weight:bold;
 }
@@ -244,6 +244,15 @@ input.num{
   font-size:18px;
 }
 
+.category-row td{
+  text-align:left !important;
+  font-size:18px !important;
+  font-weight:bold !important;
+  padding:14px 12px !important;
+  background:rgba(255,255,255,.08);
+  border-top:1px solid var(--line);
+}
+
 @media(max-width:700px){
 
   .app{
@@ -285,7 +294,6 @@ input.num{
     <p>64개 = 1세트 · 보유 재료를 세트 + 낱개로 입력하세요</p>
   </div>
 
-
   <div class="card controls">
 
     <input
@@ -300,7 +308,6 @@ input.num{
     ></div>
 
   </div>
-
 
   <div class="card content">
 
@@ -681,78 +688,217 @@ function formatStack(n){
 
 
 /* =========================
-   재료 정렬
+   재료 카테고리
    피쉬 → 작물 → 가공재료
+========================= */
+
+const FISH = [
+
+  "요정 피쉬",
+  "엔젤 피쉬",
+  "다크 피쉬",
+  "고스트 피쉬",
+  "홀로그램 피쉬"
+
+];
+
+
+const CROPS = [
+
+  "마나블라썸",
+  "피치가지",
+  "젤리버섯",
+  "팬텀 양배추",
+  "레드펄 양파",
+  "슬라임 콜라비",
+  "엔더 콩",
+  "초승달 무"
+
+];
+
+
+const PROCESSED = [
+
+  "우유",
+  "각설탕",
+  "밀가루",
+  "빵가루",
+  "수박시럽",
+  "베리소스",
+  "비트소스",
+  "고기 육수",
+  "치킨스톡",
+  "호박 퓌레",
+  "당근즙",
+  "감자 전분",
+  "익힌 닭고기",
+  "익힌 돼지고기",
+  "익힌 소고기"
+
+];
+
+
+/* =========================
+   재료 카테고리 판별
 ========================= */
 
 function getIngredientCategory(name){
 
-  /* =========================
-     🐟 피쉬
-  ========================= */
-
-  if(name.includes("피쉬")){
+  if(FISH.includes(name)){
     return 1;
   }
 
-
-  /* =========================
-     🌱 작물
-  ========================= */
-
-  const crops = [
-
-    "마나블라썸",
-    "피치가지",
-    "젤리버섯",
-    "팬텀 양배추",
-    "레드펄 양파",
-    "슬라임 콜라비",
-    "엔더 콩",
-    "초승달 무",
-    "호박 퓌레"
-
-  ];
-
-
-  if(crops.includes(name)){
+  if(CROPS.includes(name)){
     return 2;
   }
-
-
-  /* =========================
-     🧂 가공재료
-  ========================= */
 
   return 3;
 
 }
 
 
-function sortIngredients(entries){
+/* =========================
+   카테고리 이름
+========================= */
 
-  return entries.sort(([nameA],[nameB])=>{
+function getCategoryName(category){
 
-    const categoryA =
-      getIngredientCategory(nameA);
+  if(category === 1){
+    return "🐟 피쉬";
+  }
 
-    const categoryB =
-      getIngredientCategory(nameB);
+  if(category === 2){
+    return "🌱 작물";
+  }
+
+  return "🧂 가공재료";
+
+}
 
 
-    if(categoryA !== categoryB){
+/* =========================
+   전설 / 신화 실제 기본 재료
+   카테고리별 그룹 표시
+========================= */
 
-      return categoryA - categoryB;
+function createGroupedIngredientRows(ingredients){
 
+  const groups = {
+
+    1: [],
+    2: [],
+    3: []
+
+  };
+
+
+  Object.entries(ingredients).forEach(([name,need])=>{
+
+    const category =
+      getIngredientCategory(name);
+
+    groups[category].push([
+      name,
+      need
+    ]);
+
+  });
+
+
+  let html = "";
+
+
+  for(let category = 1; category <= 3; category++){
+
+    if(groups[category].length === 0){
+      continue;
     }
 
 
-    return nameA.localeCompare(
-      nameB,
-      "ko"
+    /*
+      같은 카테고리 안에서는
+      이름순으로 정렬
+    */
+
+    groups[category].sort(([a],[b])=>
+      a.localeCompare(b,"ko")
     );
 
-  });
+
+    /* 카테고리 제목 */
+
+    html += `
+
+      <tr class="category-row">
+
+        <td colspan="5">
+
+          ${getCategoryName(category)}
+
+        </td>
+
+      </tr>
+
+    `;
+
+
+    /* 재료 */
+
+    groups[category].forEach(([name,need])=>{
+
+      html += `
+
+        <tr>
+
+          <td>
+            ${name}
+          </td>
+
+          <td>
+            ${need}개
+          </td>
+
+          <td
+            class="owned"
+            id="owned-${cssId(name)}"
+          >
+            0개
+          </td>
+
+          <td>
+
+            <input
+              class="num set-input"
+              data-name="${name}"
+              type="number"
+              min="0"
+              value="0"
+            >
+
+          </td>
+
+          <td>
+
+            <input
+              class="num piece-input"
+              data-name="${name}"
+              type="number"
+              min="0"
+              value="0"
+            >
+
+          </td>
+
+        </tr>
+
+      `;
+
+    });
+
+  }
+
+
+  return html;
 
 }
 
@@ -847,13 +993,15 @@ function renderRecipe(){
     document.getElementById("appContent");
 
 
+  const isHighGrade =
+    selectedGrade === "전설"
+    ||
+    selectedGrade === "신화";
+
+
   const ingredients =
 
-    (
-      selectedGrade === "전설"
-      ||
-      selectedGrade === "신화"
-    )
+    isHighGrade
 
     ?
 
@@ -866,11 +1014,7 @@ function renderRecipe(){
 
   const sub =
 
-    (
-      selectedGrade === "전설"
-      ||
-      selectedGrade === "신화"
-    )
+    isHighGrade
 
     ?
 
@@ -920,6 +1064,70 @@ function renderRecipe(){
     `;
 
   }
+
+
+  const ingredientRows =
+
+    isHighGrade
+
+    ?
+
+    createGroupedIngredientRows(
+      ingredients
+    )
+
+    :
+
+    Object.entries(ingredients)
+
+      .map(([name,need])=>`
+
+        <tr>
+
+          <td>
+            ${name}
+          </td>
+
+          <td>
+            ${need}개
+          </td>
+
+          <td
+            class="owned"
+            id="owned-${cssId(name)}"
+          >
+            0개
+          </td>
+
+          <td>
+
+            <input
+              class="num set-input"
+              data-name="${name}"
+              type="number"
+              min="0"
+              value="0"
+            >
+
+          </td>
+
+          <td>
+
+            <input
+              class="num piece-input"
+              data-name="${name}"
+              type="number"
+              min="0"
+              value="0"
+            >
+
+          </td>
+
+        </tr>
+
+      `)
+
+      .join("");
 
 
   content.innerHTML = `
@@ -984,82 +1192,7 @@ function renderRecipe(){
 
         <tbody>
 
-          ${
-            sortIngredients(
-              Object.entries(ingredients)
-            )
-            .map(([name,need])=>`
-
-              <tr>
-
-                <td>
-
-                  ${name}
-
-                </td>
-
-
-                <td>
-
-                  ${need}개
-
-                </td>
-
-
-                <td
-                  class="owned"
-                  id="owned-${cssId(name)}"
-                >
-
-                  0개
-
-                </td>
-
-
-                <td>
-
-                  <input
-
-                    class="num set-input"
-
-                    data-name="${name}"
-
-                    type="number"
-
-                    min="0"
-
-                    value="0"
-
-                  >
-
-                </td>
-
-
-                <td>
-
-                  <input
-
-                    class="num piece-input"
-
-                    data-name="${name}"
-
-                    type="number"
-
-                    min="0"
-
-                    value="0"
-
-                  >
-
-                </td>
-
-              </tr>
-
-            `)
-
-            .join("")
-
-          }
+          ${ingredientRows}
 
         </tbody>
 
@@ -1167,6 +1300,11 @@ function updateCalculation(){
         `.piece-input[data-name="${CSS.escape(name)}"]`
 
       );
+
+
+    if(!setInput || !pieceInput){
+      continue;
+    }
 
 
     const sets =
@@ -1369,6 +1507,4 @@ renderList();
 
 </body>
 </html>
-
-</body>
-</html>
+```
