@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -7,7 +8,6 @@
 <title>은하 요리 계산기</title>
 
 <style>
-
 :root{
   --bg:#080a1f;
   --panel:rgba(16,19,48,.88);
@@ -36,6 +36,7 @@ body{
     linear-gradient(135deg,#050614,#101434 55%,#070818);
 }
 
+/* 왼쪽 별 장식 */
 body:before{
   content:"✦  ·  ✧     ·       ✦       ·  ✧      ·       ✦       ·    ✧";
   position:fixed;
@@ -52,6 +53,7 @@ body:before{
   z-index:0;
 }
 
+/* 오른쪽 별 장식 */
 body:after{
   content:"✧  ·  ✦     ·       ✧       ·  ✦       ·  ✧      ·       ✦";
   position:fixed;
@@ -165,12 +167,11 @@ body:after{
 .result{
   padding:18px;
   border-radius:16px;
-  background:
-    linear-gradient(
-      135deg,
-      rgba(110,85,255,.22),
-      rgba(55,180,255,.14)
-    );
+  background:linear-gradient(
+    135deg,
+    rgba(110,85,255,.22),
+    rgba(55,180,255,.14)
+  );
   border:1px solid rgba(150,150,255,.28);
   margin-bottom:18px;
   font-size:18px;
@@ -225,13 +226,18 @@ input.num{
   font-size:17px;
 }
 
-/* 숫자 입력칸 화살표 제거 */
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button{
+/* =========================
+   숫자 입력칸 위아래 화살표 제거
+========================= */
+
+/* 크롬 / 엣지 / 사파리 */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button{
   -webkit-appearance:none;
   margin:0;
 }
 
+/* 파이어폭스 */
 input[type="number"]{
   -moz-appearance:textfield;
   appearance:textfield;
@@ -276,9 +282,8 @@ input[type="number"]{
   border-top:1px solid var(--line);
 }
 
-
 /* =========================
-   단체주문 패널
+   단체주문 고정 패널
 ========================= */
 
 .order-panel{
@@ -286,23 +291,15 @@ input[type="number"]{
   left:20px;
   top:50%;
   transform:translateY(-50%);
-
-  width:320px;
-  max-height:90vh;
-  overflow:auto;
-
+  width:260px;
   z-index:10;
-
   background:rgba(12,15,42,.94);
   border:1px solid rgba(155,140,255,.45);
   border-radius:18px;
-
   padding:16px;
-
   box-shadow:
     0 15px 40px rgba(0,0,0,.45),
     0 0 20px rgba(120,100,255,.12);
-
   backdrop-filter:blur(15px);
 }
 
@@ -313,56 +310,27 @@ input[type="number"]{
   text-align:center;
 }
 
-.order-box{
-  padding:13px;
-  margin-bottom:12px;
-
-  border:1px solid var(--line);
-  border-radius:14px;
-
-  background:rgba(255,255,255,.035);
-}
-
-.order-box-title{
-  font-size:16px;
-  font-weight:bold;
-  margin-bottom:10px;
-  color:#e9e7ff;
-}
-
 .order-label{
   display:block;
   color:var(--muted);
   font-size:13px;
-  margin:8px 0 5px;
+  margin:10px 0 5px;
 }
 
 .order-input,
 .order-select{
   width:100%;
   padding:10px;
-
   border-radius:9px;
   border:1px solid var(--line);
-
   background:#090b23;
   color:white;
-
   font-size:15px;
-  outline:none;
-}
-
-.order-input:focus,
-.order-select:focus,
-.search:focus,
-input.num:focus{
-  border-color:var(--accent2);
-  box-shadow:0 0 10px rgba(97,214,255,.15);
 }
 
 .order-info{
-  margin-top:12px;
-  padding-top:10px;
+  margin-top:15px;
+  padding-top:12px;
   border-top:1px solid var(--line);
 }
 
@@ -370,8 +338,8 @@ input.num:focus{
   display:flex;
   justify-content:space-between;
   gap:8px;
-  margin:7px 0;
-  font-size:13px;
+  margin:8px 0;
+  font-size:14px;
 }
 
 .order-row span:first-child{
@@ -384,29 +352,22 @@ input.num:focus{
 }
 
 .order-total{
-  margin-top:9px;
-  padding:10px;
+  margin-top:12px;
+  padding:12px;
   border-radius:10px;
-
   background:linear-gradient(
     135deg,
     rgba(110,85,255,.22),
     rgba(55,180,255,.14)
   );
-
   border:1px solid rgba(150,150,255,.25);
 }
 
 .order-total strong{
   display:block;
   margin-top:4px;
-  font-size:17px;
+  font-size:18px;
 }
-
-
-/* =========================
-   반응형
-========================= */
 
 @media(max-width:1450px){
 
@@ -415,24 +376,9 @@ input.num:focus{
     left:auto;
     top:auto;
     transform:none;
-
     width:auto;
     max-width:1150px;
-
     margin:0 auto 16px;
-
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:10px;
-  }
-
-  .order-title{
-    grid-column:1/-1;
-    margin-bottom:2px;
-  }
-
-  .order-box{
-    margin-bottom:0;
   }
 
 }
@@ -446,19 +392,6 @@ input.num:focus{
   .content,
   .controls{
     padding:13px;
-  }
-
-  .order-panel{
-    display:block;
-    margin:10px 8px 16px;
-  }
-
-  .order-title{
-    margin-bottom:12px;
-  }
-
-  .order-box{
-    margin-bottom:10px;
   }
 
   th:nth-child(2),
@@ -486,17 +419,13 @@ input.num:focus{
   }
 
 }
-
 </style>
-</head>
 
+</head>
 
 <body>
 
-
-<!-- =========================
-     단체주문 패널
-========================= -->
+<!-- 단체주문 고정 패널 -->
 
 <div class="order-panel">
 
@@ -504,492 +433,144 @@ input.num:focus{
     📢 단체주문 현황
   </div>
 
-
-  <!-- 주문 1 -->
-  <div class="order-box">
-
-    <div class="order-box-title">
-      🍲 단체주문 1
-    </div>
-
-    <label class="order-label">
-      음식
-    </label>
-
-    <input
-      id="orderFood1"
-      class="order-input"
-      type="text"
-      placeholder="음식 이름 입력"
-    >
-
-    <label class="order-label">
-      📈 주문 배수
-    </label>
-
-    <input
-      id="orderMultiplier1"
-      class="order-input"
-      type="number"
-      step="0.01"
-      min="0"
-      value="0"
-      placeholder="예: 3.37"
-    >
-
-    <label class="order-label">
-      💰 단체주문 1개 가격
-    </label>
-
-    <input
-      id="orderPrice1"
-      class="order-input"
-      type="number"
-      min="0"
-      value="0"
-      placeholder="예: 5000"
-    >
-
-    <label class="order-label">
-      ✨ 판매 보너스
-    </label>
-
-    <select id="bonusRate1" class="order-select">
-      <option value="0">적용 안 함 (0%)</option>
-      <option value="5">5% 적용</option>
-      <option value="10">10% 적용</option>
-      <option value="15">15% 적용</option>
-    </select>
-
-    <div class="order-info">
-
-      <div class="order-row">
-        <span>💵 최종 1개 가격</span>
-        <span id="finalUnitPrice1" class="order-value">
-          0크론
-        </span>
-      </div>
-
-      <div class="order-row">
-        <span>📦 1세트 (64개)</span>
-        <span id="stackPrice1" class="order-value">
-          0크론
-        </span>
-      </div>
-
-      <div class="order-total">
-        <span>🍲 현재 만들 수 있는 요리</span>
-        <strong id="possibleCount1">0개</strong>
-      </div>
-
-      <div class="order-total">
-        <span>💰 예상 총 판매금액</span>
-        <strong id="totalPrice1">0크론</strong>
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <!-- 주문 2 -->
-  <div class="order-box">
-
-    <div class="order-box-title">
-      🍲 단체주문 2
-    </div>
-
-    <label class="order-label">
-      음식
-    </label>
-
-    <input
-      id="orderFood2"
-      class="order-input"
-      type="text"
-      placeholder="음식 이름 입력"
-    >
-
-    <label class="order-label">
-      📈 주문 배수
-    </label>
-
-    <input
-      id="orderMultiplier2"
-      class="order-input"
-      type="number"
-      step="0.01"
-      min="0"
-      value="0"
-      placeholder="예: 3.37"
-    >
-
-    <label class="order-label">
-      💰 단체주문 1개 가격
-    </label>
-
-    <input
-      id="orderPrice2"
-      class="order-input"
-      type="number"
-      min="0"
-      value="0"
-      placeholder="예: 5000"
-    >
-
-    <label class="order-label">
-      ✨ 판매 보너스
-    </label>
-
-    <select id="bonusRate2" class="order-select">
-      <option value="0">적용 안 함 (0%)</option>
-      <option value="5">5% 적용</option>
-      <option value="10">10% 적용</option>
-      <option value="15">15% 적용</option>
-    </select>
-
-    <div class="order-info">
-
-      <div class="order-row">
-        <span>💵 최종 1개 가격</span>
-        <span id="finalUnitPrice2" class="order-value">
-          0크론
-        </span>
-      </div>
-
-      <div class="order-row">
-        <span>📦 1세트 (64개)</span>
-        <span id="stackPrice2" class="order-value">
-          0크론
-        </span>
-      </div>
-
-      <div class="order-total">
-        <span>🍲 현재 만들 수 있는 요리</span>
-        <strong id="possibleCount2">0개</strong>
-      </div>
-
-      <div class="order-total">
-        <span>💰 예상 총 판매금액</span>
-        <strong id="totalPrice2">0크론</strong>
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <!-- 주문 3 -->
-  <div class="order-box">
-
-    <div class="order-box-title">
-      🍲 단체주문 3
-    </div>
-
-    <label class="order-label">
-      음식
-    </label>
-
-    <input
-      id="orderFood3"
-      class="order-input"
-      type="text"
-      placeholder="음식 이름 입력"
-    >
-
-    <label class="order-label">
-      📈 주문 배수
-    </label>
-
-    <input
-      id="orderMultiplier3"
-      class="order-input"
-      type="number"
-      step="0.01"
-      min="0"
-      value="0"
-      placeholder="예: 3.37"
-    >
-
-    <label class="order-label">
-      💰 단체주문 1개 가격
-    </label>
-
-    <input
-      id="orderPrice3"
-      class="order-input"
-      type="number"
-      min="0"
-      value="0"
-      placeholder="예: 5000"
-    >
-
-    <label class="order-label">
-      ✨ 판매 보너스
-    </label>
-
-    <select id="bonusRate3" class="order-select">
-      <option value="0">적용 안 함 (0%)</option>
-      <option value="5">5% 적용</option>
-      <option value="10">10% 적용</option>
-      <option value="15">15% 적용</option>
-    </select>
-
-    <div class="order-info">
-
-      <div class="order-row">
-        <span>💵 최종 1개 가격</span>
-        <span id="finalUnitPrice3" class="order-value">
-          0크론
-        </span>
-      </div>
-
-      <div class="order-row">
-        <span>📦 1세트 (64개)</span>
-        <span id="stackPrice3" class="order-value">
-          0크론
-        </span>
-      </div>
-
-      <div class="order-total">
-        <span>🍲 현재 만들 수 있는 요리</span>
-        <strong id="possibleCount3">0개</strong>
-      </div>
-
-      <div class="order-total">
-        <span>💰 예상 총 판매금액</span>
-        <strong id="totalPrice3">0크론</strong>
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <!-- 주문 4 -->
-  <div class="order-box">
-
-    <div class="order-box-title">
-      🍲 단체주문 4
-    </div>
-
-    <label class="order-label">
-      음식
-    </label>
-
-    <input
-      id="orderFood4"
-      class="order-input"
-      type="text"
-      placeholder="음식 이름 입력"
-    >
-
-    <label class="order-label">
-      📈 주문 배수
-    </label>
-
-    <input
-      id="orderMultiplier4"
-      class="order-input"
-      type="number"
-      step="0.01"
-      min="0"
-      value="0"
-      placeholder="예: 3.37"
-    >
-
-    <label class="order-label">
-      💰 단체주문 1개 가격
-    </label>
-
-    <input
-      id="orderPrice4"
-      class="order-input"
-      type="number"
-      min="0"
-      value="0"
-      placeholder="예: 5000"
-    >
-
-    <label class="order-label">
-      ✨ 판매 보너스
-    </label>
-
-    <select id="bonusRate4" class="order-select">
-      <option value="0">적용 안 함 (0%)</option>
-      <option value="5">5% 적용</option>
-      <option value="10">10% 적용</option>
-      <option value="15">15% 적용</option>
-    </select>
-
-    <div class="order-info">
-
-      <div class="order-row">
-        <span>💵 최종 1개 가격</span>
-        <span id="finalUnitPrice4" class="order-value">
-          0크론
-        </span>
-      </div>
-
-      <div class="order-row">
-        <span>📦 1세트 (64개)</span>
-        <span id="stackPrice4" class="order-value">
-          0크론
-        </span>
-      </div>
-
-      <div class="order-total">
-        <span>🍲 현재 만들 수 있는 요리</span>
-        <strong id="possibleCount4">0개</strong>
-      </div>
-
-      <div class="order-total">
-        <span>💰 예상 총 판매금액</span>
-        <strong id="totalPrice4">0크론</strong>
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <!-- 주문 5 -->
-  <div class="order-box">
-
-    <div class="order-box-title">
-      🍲 단체주문 5
-    </div>
-
-    <label class="order-label">
-      음식
-    </label>
-
-    <input
-      id="orderFood5"
-      class="order-input"
-      type="text"
-      placeholder="음식 이름 입력"
-    >
-
-    <label class="order-label">
-      📈 주문 배수
-    </label>
-
-    <input
-      id="orderMultiplier5"
-      class="order-input"
-      type="number"
-      step="0.01"
-      min="0"
-      value="0"
-      placeholder="예: 3.37"
-    >
-
-    <label class="order-label">
-      💰 단체주문 1개 가격
-    </label>
-
-    <input
-      id="orderPrice5"
-      class="order-input"
-      type="number"
-      min="0"
-      value="0"
-      placeholder="예: 5000"
-    >
-
-    <label class="order-label">
-      ✨ 판매 보너스
-    </label>
-
-    <select id="bonusRate5" class="order-select">
-      <option value="0">적용 안 함 (0%)</option>
-      <option value="5">5% 적용</option>
-      <option value="10">10% 적용</option>
-      <option value="15">15% 적용</option>
-    </select>
-
-    <div class="order-info">
-
-      <div class="order-row">
-        <span>💵 최종 1개 가격</span>
-        <span id="finalUnitPrice5" class="order-value">
-          0크론
-        </span>
-      </div>
-
-      <div class="order-row">
-        <span>📦 1세트 (64개)</span>
-        <span id="stackPrice5" class="order-value">
-          0크론
-        </span>
-      </div>
-
-      <div class="order-total">
-        <span>🍲 현재 만들 수 있는 요리</span>
-        <strong id="possibleCount5">0개</strong>
-      </div>
-
-      <div class="order-total">
-        <span>💰 예상 총 판매금액</span>
-        <strong id="totalPrice5">0크론</strong>
-      </div>
-
-    </div>
+  <label class="order-label">
+    🍲 단체주문 음식
+  </label>
+
+<input
+id="orderFood"
+class="order-input"
+type="text"
+placeholder="음식 이름 입력"
+
+>
+
+  <label class="order-label">
+    📈 단체주문 배수
+  </label>
+
+<input
+id="orderMultiplier"
+class="order-input"
+type="number"
+step="0.01"
+min="0"
+placeholder="예: 3.37"
+
+>
+
+  <label class="order-label">
+    💰 단체주문 1개 가격
+  </label>
+
+<input
+id="orderPrice"
+class="order-input"
+type="number"
+min="0"
+placeholder="예: 5000"
+
+>
+
+  <label class="order-label">
+    ✨ 판매 보너스
+  </label>
+
+<select
+id="bonusRate"
+class="order-select"
+
+>
+
+```
+<option value="0">적용 안 함 (0%)</option>
+```
+
+```
+<option value="5">5% 적용</option>
+<option value="10">10% 적용</option>
+<option value="15">15% 적용</option>
+```
+
+  </select>
+
+  <div class="order-info">
+
+```
+<div class="order-row">
+  <span>💵 최종 1개 가격</span>
+  <span id="finalUnitPrice" class="order-value">
+    0크론
+  </span>
+</div>
+
+<div class="order-row">
+  <span>📦 1세트 (64개)</span>
+  <span id="stackPrice" class="order-value">
+    0크론
+  </span>
+</div>
+
+<div class="order-total">
+  <span>🍲 현재 만들 수 있는 요리</span>
+  <strong id="possibleCount">0개</strong>
+</div>
+
+<div class="order-total">
+  <span>💰 예상 총 판매금액</span>
+  <strong id="totalPrice">0크론</strong>
+</div>
+```
 
   </div>
 
 </div>
-
 
 <div class="app">
 
   <div class="hero">
-
-    <h1>
-      🌌 은하 요리 계산기 🍳
-    </h1>
-
-    <p>
-      64개 = 1세트 · 보유 재료를 세트 + 낱개로 입력하세요
-    </p>
-
+    <h1>🌌 은하 요리 계산기 🍳</h1>
+    <p>64개 = 1세트 · 보유 재료를 세트 + 낱개로 입력하세요</p>
   </div>
-
 
   <div class="card controls">
 
-    <input
-      id="search"
-      class="search"
-      placeholder="🔎 요리 이름을 검색하세요"
-    >
+```
+<input
+  id="search"
+  class="search"
+  placeholder="🔎 요리 이름을 검색하세요"
+>
 
-    <div
-      id="recipeList"
-      class="recipe-list"
-    ></div>
+<div
+  id="recipeList"
+  class="recipe-list"
+></div>
+```
 
   </div>
 
-
   <div class="card content">
 
-    <div
-      id="appContent"
-      class="empty"
-    >
-      위에서 요리를 선택해주세요.
-    </div>
+```
+<div
+  id="appContent"
+  class="empty"
+>
+  위에서 요리를 선택해주세요.
+</div>
+```
 
   </div>
 
 </div>
 
-
 <script>
 
 const STACK = 64;
+
+const ORDER_STORAGE_KEY =
+  "galaxyCookingOrderInfo";
 
 
 /* =========================
@@ -1264,7 +845,7 @@ const recipes = {
 };
 
 
-/* 모든 요리 합치기 */
+/* 모든 요리를 하나로 합침 */
 
 const all = {};
 
@@ -1278,27 +859,178 @@ let selectedGrade = null;
 let currentPossible = 0;
 
 
-/* =========================
-   크론 표시
-========================= */
+/* 단체주문 저장 */
 
-function formatCron(value){
+function saveOrderInfo(){
 
-  const number = Math.round(value || 0);
+  const data = {
+    food:document.getElementById("orderFood").value,
+    multiplier:document.getElementById("orderMultiplier").value,
+    price:document.getElementById("orderPrice").value,
+    bonus:document.getElementById("bonusRate").value
+  };
 
-  return number.toLocaleString() + "크론";
+  localStorage.setItem(
+    ORDER_STORAGE_KEY,
+    JSON.stringify(data)
+  );
 
 }
 
 
-/* =========================
-   세트 표시
-========================= */
+/* 단체주문 불러오기 */
+
+function loadOrderInfo(){
+
+  const saved =
+    localStorage.getItem(
+      ORDER_STORAGE_KEY
+    );
+
+  if(!saved) return;
+
+  try{
+
+    const data =
+      JSON.parse(saved);
+
+    document.getElementById("orderFood").value =
+      data.food || "";
+
+    document.getElementById("orderMultiplier").value =
+      data.multiplier || "";
+
+    document.getElementById("orderPrice").value =
+      data.price || "";
+
+    document.getElementById("bonusRate").value =
+      data.bonus || "0";
+
+  }catch(error){
+
+    console.error(
+      "단체주문 정보를 불러오지 못했습니다.",
+      error
+    );
+
+  }
+
+}
+
+
+/* 크론 표시 */
+
+function formatCron(value){
+
+  const number =
+    Math.round(value || 0);
+
+  return number.toLocaleString()
+    + "크론";
+
+}
+
+
+/* 단체주문 금액 계산 */
+
+function updateOrderCalculation(){
+
+  const price =
+    Math.max(
+      0,
+      Number(
+        document
+          .getElementById("orderPrice")
+          .value
+      ) || 0
+    );
+
+  const bonus =
+    Math.max(
+      0,
+      Number(
+        document
+          .getElementById("bonusRate")
+          .value
+      ) || 0
+    );
+
+  const finalUnitPrice =
+    price * (1 + bonus / 100);
+
+  const oneStackPrice =
+    finalUnitPrice * STACK;
+
+  const total =
+    finalUnitPrice * currentPossible;
+
+  document
+    .getElementById("finalUnitPrice")
+    .textContent =
+    formatCron(finalUnitPrice);
+
+  document
+    .getElementById("stackPrice")
+    .textContent =
+    formatCron(oneStackPrice);
+
+  document
+    .getElementById("possibleCount")
+    .textContent =
+    formatStack(currentPossible);
+
+  document
+    .getElementById("totalPrice")
+    .textContent =
+    formatCron(total);
+
+}
+
+
+/* 전설 / 신화 기본 재료 계산 */
+
+function expandRecipe(name, amount=1, result={}){
+
+  for(
+    const [item,need]
+    of Object.entries(all[name])
+  ){
+
+    const total =
+      need * amount;
+
+    if(all[item]){
+
+      expandRecipe(
+        item,
+        total,
+        result
+      );
+
+    }else{
+
+      result[item] =
+        (result[item] || 0)
+        + total;
+
+    }
+
+  }
+
+  return result;
+
+}
+
+
+/* 세트 표시 */
 
 function formatStack(n){
 
-  const sets = Math.floor(n / STACK);
-  const pieces = n % STACK;
+  const sets =
+    Math.floor(n / STACK);
+
+  const pieces =
+    n % STACK;
 
   if(sets && pieces){
     return `${n.toLocaleString()}개 (${sets}세트 + ${pieces}개)`;
@@ -1313,168 +1045,17 @@ function formatStack(n){
 }
 
 
-/* =========================
-   단체주문 계산
-========================= */
-
-function updateSingleOrder(index){
-
-  const price =
-    Math.max(
-      0,
-      Number(
-        document.getElementById(
-          "orderPrice" + index
-        ).value
-      ) || 0
-    );
-
-
-  const bonus =
-    Math.max(
-      0,
-      Number(
-        document.getElementById(
-          "bonusRate" + index
-        ).value
-      ) || 0
-    );
-
-
-  const multiplier =
-    Math.max(
-      0,
-      Number(
-        document.getElementById(
-          "orderMultiplier" + index
-        ).value
-      ) || 0
-    );
-
-
-  /*
-    단체주문 배수만큼 만들 수 있는 요리 수를 계산
-  */
-
-  const possible =
-    Math.floor(
-      multiplier
-    );
-
-
-  const finalUnitPrice =
-    price *
-    (
-      1 +
-      bonus / 100
-    );
-
-
-  const oneStackPrice =
-    finalUnitPrice *
-    STACK;
-
-
-  const total =
-    finalUnitPrice *
-    possible;
-
-
-  document.getElementById(
-    "finalUnitPrice" + index
-  ).textContent =
-    formatCron(finalUnitPrice);
-
-
-  document.getElementById(
-    "stackPrice" + index
-  ).textContent =
-    formatCron(oneStackPrice);
-
-
-  document.getElementById(
-    "possibleCount" + index
-  ).textContent =
-    formatStack(possible);
-
-
-  document.getElementById(
-    "totalPrice" + index
-  ).textContent =
-    formatCron(total);
-
-}
-
-
-function updateAllOrders(){
-
-  for(let i=1;i<=5;i++){
-    updateSingleOrder(i);
-  }
-
-}
-
-
-/* =========================
-   전설 / 신화 기본 재료 계산
-========================= */
-
-function expandRecipe(
-  name,
-  amount=1,
-  result={}
-){
-
-  for(
-    const [item,need]
-    of Object.entries(all[name])
-  ){
-
-    const total =
-      need * amount;
-
-
-    if(all[item]){
-
-      expandRecipe(
-        item,
-        total,
-        result
-      );
-
-    }else{
-
-      result[item] =
-        (result[item] || 0)
-        +
-        total;
-
-    }
-
-  }
-
-  return result;
-
-}
-
-
-/* =========================
-   재료 카테고리
-========================= */
+/* 재료 카테고리 */
 
 const FISH = [
-
   "요정 피쉬",
   "엔젤 피쉬",
   "다크 피쉬",
   "고스트 피쉬",
   "홀로그램 피쉬"
-
 ];
 
-
 const CROPS = [
-
   "마나블라썸",
   "피치가지",
   "젤리버섯",
@@ -1483,9 +1064,10 @@ const CROPS = [
   "슬라임 콜라비",
   "엔더 콩",
   "초승달 무"
-
 ];
 
+
+/* 재료 카테고리 판별 */
 
 function getIngredientCategory(name){
 
@@ -1517,17 +1099,76 @@ function getCategoryName(category){
 }
 
 
-/* =========================
-   재료 행
-========================= */
+function createGroupedIngredientRows(ingredients){
 
-function createIngredientRow(
-  name,
-  need
-){
+  const groups = {
+    1: [],
+    2: [],
+    3: []
+  };
+
+  Object.entries(ingredients)
+    .forEach(([name,need])=>{
+
+      const category =
+        getIngredientCategory(name);
+
+      groups[category].push([
+        name,
+        need
+      ]);
+
+    });
+
+  let html = "";
+
+  for(
+    let category = 1;
+    category <= 3;
+    category++
+  ){
+
+    if(
+      groups[category].length === 0
+    ){
+      continue;
+    }
+
+    groups[category].sort(
+      ([a],[b])=>
+        a.localeCompare(b,"ko")
+    );
+
+    html += `
+      <tr class="category-row">
+        <td colspan="5">
+          ${getCategoryName(category)}
+        </td>
+      </tr>
+    `;
+
+    groups[category]
+      .forEach(([name,need])=>{
+
+        html += createIngredientRow(
+          name,
+          need
+        );
+
+      });
+
+  }
+
+  return html;
+
+}
+
+
+/* 일반 재료 행 생성 */
+
+function createIngredientRow(name,need){
 
   return `
-
     <tr>
 
       <td>
@@ -1546,7 +1187,6 @@ function createIngredientRow(
       </td>
 
       <td>
-
         <input
           class="num set-input"
           data-name="${name}"
@@ -1554,11 +1194,9 @@ function createIngredientRow(
           min="0"
           value="0"
         >
-
       </td>
 
       <td>
-
         <input
           class="num piece-input"
           data-name="${name}"
@@ -1566,102 +1204,15 @@ function createIngredientRow(
           min="0"
           value="0"
         >
-
       </td>
 
     </tr>
-
   `;
 
 }
 
 
-/* =========================
-   카테고리별 재료
-========================= */
-
-function createGroupedIngredientRows(
-  ingredients
-){
-
-  const groups = {
-    1:[],
-    2:[],
-    3:[]
-  };
-
-
-  Object.entries(ingredients)
-    .forEach(([name,need])=>{
-
-      const category =
-        getIngredientCategory(name);
-
-      groups[category].push([
-        name,
-        need
-      ]);
-
-    });
-
-
-  let html = "";
-
-
-  for(
-    let category=1;
-    category<=3;
-    category++
-  ){
-
-    if(
-      groups[category].length === 0
-    ){
-      continue;
-    }
-
-
-    groups[category].sort(
-      ([a],[b])=>
-        a.localeCompare(b,"ko")
-    );
-
-
-    html += `
-
-      <tr class="category-row">
-
-        <td colspan="5">
-          ${getCategoryName(category)}
-        </td>
-
-      </tr>
-
-    `;
-
-
-    groups[category]
-      .forEach(([name,need])=>{
-
-        html +=
-          createIngredientRow(
-            name,
-            need
-          );
-
-      });
-
-  }
-
-
-  return html;
-
-}
-
-
-/* =========================
-   요리 목록
-========================= */
+/* 요리 목록 표시 */
 
 function renderList(){
 
@@ -1672,15 +1223,12 @@ function renderList(){
       .trim()
       .toLowerCase();
 
-
   const list =
     document.getElementById(
       "recipeList"
     );
 
-
   list.innerHTML = "";
-
 
   for(
     const [grade,group]
@@ -1693,24 +1241,15 @@ function renderList(){
     ){
 
       if(
-
-        (
-          grade
-          +
-          " "
-          +
-          name
-        )
-        .toLowerCase()
-        .includes(q)
-
+        (grade + " " + name)
+          .toLowerCase()
+          .includes(q)
       ){
 
         const button =
           document.createElement(
             "button"
           );
-
 
         button.className =
           "recipe-btn"
@@ -1723,17 +1262,13 @@ function renderList(){
             ""
           );
 
-
         button.innerHTML = `
-
           <span class="grade">
             ${grade}
           </span>
 
           ${name}
-
         `;
-
 
         button.onclick = ()=>{
 
@@ -1743,7 +1278,6 @@ function renderList(){
           );
 
         };
-
 
         list.appendChild(button);
 
@@ -1756,45 +1290,34 @@ function renderList(){
 }
 
 
-/* =========================
-   요리 선택
-========================= */
+/* 요리 선택 */
 
-function selectRecipe(
-  grade,
-  name
-){
+function selectRecipe(grade,name){
 
   selected = name;
   selectedGrade = grade;
 
   renderList();
-
   renderRecipe();
 
 }
 
 
-/* =========================
-   요리 화면
-========================= */
+/* 요리 화면 표시 */
 
 function renderRecipe(){
 
   if(!selected) return;
-
 
   const content =
     document.getElementById(
       "appContent"
     );
 
-
   const isHighGrade =
     selectedGrade === "전설"
     ||
     selectedGrade === "신화";
-
 
   const ingredients =
     isHighGrade
@@ -1803,7 +1326,6 @@ function renderRecipe(){
     :
     all[selected];
 
-
   const sub =
     isHighGrade
     ?
@@ -1811,14 +1333,11 @@ function renderRecipe(){
     :
     null;
 
-
   let subHtml = "";
-
 
   if(sub){
 
     subHtml = `
-
       <div class="section-title">
         🥘 필요한 하위 요리
       </div>
@@ -1842,11 +1361,9 @@ function renderRecipe(){
       <div class="section-title">
         📋 실제 기본 재료
       </div>
-
     `;
 
   }
-
 
   const ingredientRows =
     isHighGrade
@@ -1864,16 +1381,12 @@ function renderRecipe(){
       )
       .join("");
 
-
   content.innerHTML = `
 
     <div class="selected">
-
       [${selectedGrade}]
       ${selected}
-
     </div>
-
 
     <div class="result">
 
@@ -1891,41 +1404,30 @@ function renderRecipe(){
 
     </div>
 
-
     ${subHtml}
-
 
     <div style="overflow:auto">
 
       <table class="table">
 
         <thead>
-
           <tr>
-
             <th>재료</th>
             <th>요리 1개 필요량</th>
             <th>보유량</th>
             <th>세트</th>
             <th>낱개</th>
-
           </tr>
-
         </thead>
 
-
         <tbody>
-
           ${ingredientRows}
-
         </tbody>
 
       </table>
 
     </div>
-
   `;
-
 
   document
     .querySelectorAll(
@@ -1938,7 +1440,6 @@ function renderRecipe(){
         updateCalculation
       );
 
-
       el.addEventListener(
         "keydown",
         handleTab
@@ -1946,15 +1447,12 @@ function renderRecipe(){
 
     });
 
-
   updateCalculation();
 
 }
 
 
-/* =========================
-   HTML ID 생성
-========================= */
+/* HTML ID 생성 */
 
 function cssId(name){
 
@@ -1971,9 +1469,7 @@ function cssId(name){
 }
 
 
-/* =========================
-   만들 수 있는 요리 계산
-========================= */
+/* 만들 수 있는 요리 계산 */
 
 function updateCalculation(){
 
@@ -1981,12 +1477,11 @@ function updateCalculation(){
 
     currentPossible = 0;
 
-    updateAllOrders();
+    updateOrderCalculation();
 
     return;
 
   }
-
 
   const req =
     (
@@ -1999,9 +1494,7 @@ function updateCalculation(){
     :
     all[selected];
 
-
   let possible = Infinity;
-
 
   for(
     const [name,need]
@@ -2013,12 +1506,10 @@ function updateCalculation(){
         `.set-input[data-name="${CSS.escape(name)}"]`
       );
 
-
     const pieceInput =
       document.querySelector(
         `.piece-input[data-name="${CSS.escape(name)}"]`
       );
-
 
     if(
       !setInput
@@ -2028,26 +1519,27 @@ function updateCalculation(){
       continue;
     }
 
-
     const sets =
       Math.max(
         0,
-        Number(setInput.value) || 0
+        Number(
+          setInput.value
+        ) || 0
       );
-
 
     const pieces =
       Math.max(
         0,
-        Number(pieceInput.value) || 0
+        Number(
+          pieceInput.value
+        ) || 0
       );
 
-
     const owned =
-      Math.floor(sets) * STACK
+      Math.floor(sets)
+      * STACK
       +
       Math.floor(pieces);
-
 
     possible =
       Math.min(
@@ -2057,13 +1549,12 @@ function updateCalculation(){
         )
       );
 
-
     const cell =
       document.getElementById(
-        "owned-" +
+        "owned-"
+        +
         cssId(name)
       );
-
 
     if(cell){
 
@@ -2074,29 +1565,24 @@ function updateCalculation(){
 
   }
 
-
   if(possible === Infinity){
     possible = 0;
   }
 
-
-  currentPossible = possible;
-
+  currentPossible =
+    possible;
 
   document
     .getElementById("result")
     .textContent =
     formatStack(possible);
 
-
-  updateAllOrders();
+  updateOrderCalculation();
 
 }
 
 
-/* =========================
-   TAB 이동
-========================= */
+/* TAB 키 이동 */
 
 function handleTab(e){
 
@@ -2104,28 +1590,24 @@ function handleTab(e){
     return;
   }
 
-
   const inputs = [
     ...document.querySelectorAll(
       ".set-input,.piece-input"
     )
   ];
 
-
   const index =
-    inputs.indexOf(e.target);
-
+    inputs.indexOf(
+      e.target
+    );
 
   if(index < 0){
     return;
   }
 
-
   e.preventDefault();
 
-
   let next;
-
 
   if(e.shiftKey){
 
@@ -2149,114 +1631,51 @@ function handleTab(e){
 
   }
 
-
   next.focus();
   next.select();
 
 }
 
 
-/* =========================
-   숫자 입력칸
-   0 자동 선택
-========================= */
+/* 단체주문 입력 이벤트 */
 
-document.addEventListener(
-  "focusin",
-  e=>{
+[
+  "orderFood",
+  "orderMultiplier",
+  "orderPrice",
+  "bonusRate"
+]
 
-    if(
-      e.target.matches(
-        'input[type="number"]'
-      )
-    ){
+.forEach(id=>{
 
-      if(
-        e.target.value === "0"
-      ){
-
-        e.target.select();
-
-      }
-
-    }
-
-  }
-);
-
-
-/* =========================
-   숫자칸 비우면 0
-========================= */
-
-document.addEventListener(
-  "blur",
-  e=>{
-
-    if(
-      e.target.matches(
-        'input[type="number"]'
-      )
-    ){
-
-      if(
-        e.target.value === ""
-      ){
-
-        e.target.value = "0";
-
-      }
-
-    }
-
-  },
-  true
-);
-
-
-/* =========================
-   단체주문 입력 이벤트
-========================= */
-
-for(let i=1;i<=5;i++){
-
-  [
-    "orderFood",
-    "orderMultiplier",
-    "orderPrice",
-    "bonusRate"
-  ]
-  .forEach(prefix=>{
-
-    const element =
-      document.getElementById(
-        prefix + i
-      );
-
-
-    element.addEventListener(
+  document
+    .getElementById(id)
+    .addEventListener(
       "input",
       ()=>{
-        updateSingleOrder(i);
+
+        saveOrderInfo();
+        updateOrderCalculation();
+
       }
     );
 
-
-    element.addEventListener(
+  document
+    .getElementById(id)
+    .addEventListener(
       "change",
       ()=>{
-        updateSingleOrder(i);
+
+        saveOrderInfo();
+        updateOrderCalculation();
+
       }
     );
 
-  });
-
-}
+});
 
 
-/* =========================
-   검색
-========================= */
+/* 검색 기능 */
 
 document
   .getElementById("search")
@@ -2264,7 +1683,6 @@ document
     "input",
     renderList
   );
-
 
 document
   .getElementById("search")
@@ -2279,7 +1697,6 @@ document
             ".recipe-btn"
           );
 
-
         if(first){
           first.click();
         }
@@ -2290,15 +1707,16 @@ document
   );
 
 
-/* =========================
-   시작
-========================= */
+/* 시작 */
+
+loadOrderInfo();
 
 renderList();
 
-updateAllOrders();
+updateOrderCalculation();
 
 </script>
 
 </body>
 </html>
+
